@@ -1,6 +1,6 @@
 #include <iostream>
 #include "Player.hpp"
-#include "Location.hpp"
+
 
 int main() {
   Player *myPlayer;
@@ -16,15 +16,22 @@ int main() {
   //Location *local2;
   //Location *local3;
 
-  //local1 = 
-  //local2 = 
-  //local3 = 
+  Location local1 = Location("a green grasslands");
+  Location local2 = Location("a dank forest"); 
+  Location local3 = Location("a dank forest");
 
-  Location *world[numOfRooms];
-  world[0] = new Location("a green grasslands");
-  world[1] = new Location("a dank forest");
-  world[2] = new Location("a castle");
- 
+  Location world[]={local1, local2, local3};
+  //world[0] = new Location("a green grasslands");
+ // world[1] = new Location("a dank forest");
+  //world[2] = new Location("a dank forest");
+  
+  //world[1]->showDiscription();
+   myPlayer->showPos(world);
+   myPlayer->moveRight();
+   myPlayer->showPos(world);
+
+
+
  // myPlayer
   return 0;
 } 

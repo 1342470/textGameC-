@@ -3,6 +3,8 @@
 #include<iostream>
 #include <time.h>
 
+#include "Location.hpp"
+
 using namespace std;
 
 class Player
@@ -28,6 +30,7 @@ public:
     void moveRight();
     void printInfo();
     string getName();
+    void showPos(Location world[]);
     ~Player();
     
 };
@@ -42,7 +45,10 @@ Player::Player(string theName, int numOfRooms){
   pos = 0;
 }
 
-
+void Player::showPos(Location world[]){
+    cout << world[pos].showDiscription() << endl;
+    //cout << pos;
+}
 
 Player::~Player(){
   cout << name << " has died" << endl;
