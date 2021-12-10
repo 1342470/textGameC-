@@ -1,4 +1,3 @@
-
 #include<iostream>
 #include <time.h>
 
@@ -11,9 +10,9 @@ class Location
   int treasure;
 
   public:
-    void showDiscription();
+    string showDiscription();
     Location(string discription);
-    ~Location;
+    ~Location();
 };
 
 Location::Location(string theDiscription){
@@ -24,6 +23,6 @@ Location::~Location(){
   cout << "destroying room " << endl;
 }
 
-void showDiscription(){
+string Location::showDiscription(){
   return discription;
 }

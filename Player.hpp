@@ -12,18 +12,20 @@ class Player
     float money;
     int pos;
     int strenth;
+    int boundary;
     //int random = rand() % 10 + 1;
 
 
 public:
-    Player(string theName);
+    Player(string theName, int numOfRooms);
     void setName(string nameIn);      
     void bribe(int money);
     void minusMoney(int moneyOut);
     void addMoney(int moneyIn);
     double getMoney();
     void fight();
-    void move();
+    void moveLeft();
+    void moveRight();
     void printInfo();
     string getName();
     ~Player();
@@ -31,11 +33,12 @@ public:
 };
 
 //constrctor 
-Player::Player(string theName){
+Player::Player(string theName, int numOfRooms){
   name = theName;
   money = rand() % 10 + 1;
   hitPoints = rand() % 10 + 1;
   strenth = rand() % 10 + 1;
+  boundary = numOfRooms;
   pos = 0;
 }
 
@@ -71,8 +74,17 @@ void Player::minusMoney(int moneyOut){
   money = money -moneyOut;
 }
 
-void Player::move(){
-  
+void Player::moveLeft(){
+  if(pos > 0){
+     pos--;
+  }
+}
+
+
+void Player::moveRight(){
+  if (pos < boundary){
+    pos++;
+  }
 }
 
 void Player::printInfo()
