@@ -12,7 +12,17 @@ class Location
 
   public:
     void showDiscription();
+    Location(string discription);
+    ~Location;
 };
+
+Location::Location(string theDiscription){
+  discription = theDiscription;
+}
+
+Location::~Location(){
+  cout << "destroying room " << endl;
+}
 
 void showDiscription(){
   return discription;
