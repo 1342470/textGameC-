@@ -2,7 +2,7 @@
 
 #include<iostream>
 #include <time.h>
-
+#include "Creature.hpp"
 #include "Location.hpp"
 
 using namespace std;
@@ -25,12 +25,13 @@ public:
     void minusMoney(int moneyOut);
     void addMoney(int moneyIn);
     double getMoney();
-    void fight();
     void moveLeft();
     void moveRight();
     void printInfo();
     string getName();
     void showPos(Location world[]);
+    void attack(Creature theTarget);
+    void decreaseHelath();
     ~Player();
     
 };
@@ -91,6 +92,17 @@ void Player::moveRight(){
   if (pos < boundary){
     pos++;
   }
+}
+
+void Player::attack(Creature theTarget){
+    int strike = this->strenth + rand() % 10 + 1;
+    theTarget.decreasehealth(strike);
+    System.out.println("You strike " + theEn.getName() + " the impact leaves them with " + theEn.getHealth() + "health left ");
+}
+
+void Player::decreaseHelath() {
+    int healthLoss = rand() % 10 + 1 / this->strenth;
+    hitPoints = hitPoints - healthLoss;
 }
 
 void Player::printInfo()
