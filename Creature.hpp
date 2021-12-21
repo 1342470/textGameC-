@@ -2,8 +2,7 @@
 
 #include<iostream>
 #include <time.h>
-#include "Player.hpp"
-#include "Location.hpp"
+
 
 using namespace std;
 
@@ -12,39 +11,38 @@ class Creature
     string name;
     int hitPoints;
     float money;
-    int pos;
     int strenth;
-    int boundary;
+    int location;
     //int random = rand() % 10 + 1;
 
 
 public:
-    Creature(string theName, int numOfRooms);
+    Creature(string theName);
     void setName(string nameIn);
     void minusMoney(int moneyOut);
     void addMoney(int moneyIn);
     double getMoney();
     void printInfo();
     string getName();
-    void attack(Player theTarget);
-    void decreaseHelath();
+    void attack(Creature theTarget);
+    void decreaseHealth(int strike);
     ~Creature();
+    int getHealth();
+
 
 };
 
 //constrctor 
-Creature::Creature(string theName, int numOfRooms) {
+Creature::Creature(string theName) {
     name = theName;
     money = rand() % 10 + 1;
     hitPoints = rand() % 10 + 1;
     strenth = rand() % 10 + 1;
-    boundary = numOfRooms;
-    pos = 0;
 }
 
 
 Creature::~Creature() {
-    cout << name << " has died" << endl;
+  cout << name << " has died" << endl;
 }
 
 
@@ -71,13 +69,17 @@ void Creature::minusMoney(int moneyOut) {
 }
 
 
-void Creature::attack(Player theTarget) {
+void Creature::attack(Creature theTarget) {
     int strike = this->strenth + rand() % 10 + 1;
-    theTarget.decreasehealth(strike);
-    System.out.println("You strike " + theEn.getName() + " the impact leaves them with " + theEn.getHealth() + "health left ");
+    theTarget.decreaseHealth(strike);
+    cout << "You strike " << theTarget.getName() << " the impact leaves them with " << theTarget.getHealth() << "health left " << endl;
 }
 
-void Creature::decreaseHelath() {
+int Creature::getHealth() {
+    return hitPoints;
+}
+
+void Creature::decreaseHealth(int strike) {
     int healthLoss = rand() % 10 + 1 / this->strenth;
     hitPoints = hitPoints - healthLoss;
 }
@@ -86,5 +88,3 @@ void Creature::printInfo()
 {
     cout << "the Creatures name is " << name << " they have " << money << " gold " << " and have " << strenth << " strenth" << endl;
 }
-
-

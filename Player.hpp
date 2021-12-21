@@ -1,72 +1,56 @@
-/*The header file for main.cpp*/
 
-#include<iostream>
-#include <time.h>
-#include "Creature.hpp"
-#include "Location.hpp"
-
+#include<string>
 using namespace std;
+#include "Creature.hpp"
+
 
 class Player
 {
+  private:
+    int location;
     string name;
+    int numRooms;
     int hitPoints;
     float money;
-    int pos;
     int strenth;
-    int boundary;
-    //int random = rand() % 10 + 1;
-
-
-public:
-    Player(string theName, int numOfRooms);
-    void setName(string nameIn);      
+  public:
+    Player(string name, int numRooms);
+    string getName();
+    void moveLeft();
+    void moveRight();
     void bribe(int money);
     void minusMoney(int moneyOut);
     void addMoney(int moneyIn);
     double getMoney();
-    void moveLeft();
-    void moveRight();
     void printInfo();
-    string getName();
-    void showPos(Location world[]);
-    void attack(Creature theTarget);
-    void decreaseHelath();
-    ~Player();
-    
+    void attack(Creature *theTarget);
+    void decreaseHealth(int strike);
+    int getHealth();
+    int getLoc();
+    char getAction(Creature *theTarget);
+    void bribe(Creature theTarget);
 };
 
-//constrctor 
-Player::Player(string theName, int numOfRooms){
-  name = theName;
-  money = rand() % 10 + 1;
-  hitPoints = rand() % 10 + 1;
-  strenth = rand() % 10 + 1;
-  boundary = numOfRooms;
-  pos = 0;
-}
-
-void Player::showPos(Location world[]){
-    cout << world[pos].showDiscription() << endl;
-    //cout << pos;
-}
-
-Player::~Player(){
-  cout << name << " has died" << endl;
-}
-
-
-void Player::setName(string nameIn)
-{
-    name = nameIn;
+Player::Player(string name, int numRooms){
+    this->name = name;
+    this->numRooms = numRooms;
+    location = 0;
 }
 
 string Player::getName(){
-  return name ;
+  return this->name;
 }
-void Player::bribe(int money)
-{
-  cout << name << " is bribeing " << money << " gold " << endl ;
+
+void Player::moveLeft(){
+  if(location > 0){
+    location--;
+  }  
+}
+
+void Player::moveRight(){
+  if(location < numRooms){
+    location++;
+  } 
 }
 
 double Player::getMoney(){
@@ -81,33 +65,60 @@ void Player::minusMoney(int moneyOut){
   money = money -moneyOut;
 }
 
-void Player::moveLeft(){
-  if(pos > 0){
-     pos--;
-  }
+int Player::getLoc(){
+  return location;
 }
 
-
-void Player::moveRight(){
-  if (pos < boundary){
-    pos++;
-  }
-}
-
-void Player::attack(Creature theTarget){
+void Player::attack(Creature *theTarget){
     int strike = this->strenth + rand() % 10 + 1;
-    theTarget.decreasehealth(strike);
-    System.out.println("You strike " + theEn.getName() + " the impact leaves them with " + theEn.getHealth() + "health left ");
+    theTarget->decreaseHealth(strike);
+    cout << "You strike " << theTarget->getName() << " the impact leaves them with " << theTarget->getHealth() << " health left " << endl ;
 }
 
-void Player::decreaseHelath() {
+void Player::bribe(Creature theTarget){
+    int amount;
+    cout << "How much will you bribe?" << endl;
+    cin >> amount;
+    if (amount > money){
+      cout << "you dont't have enough money the Creature gets angry and attacks you" << endl;
+      decreaseHealth(2);
+    }else{
+      money = money - amount; 
+    }
+  }
+
+
+void Player::decreaseHealth(int stirke) {
     int healthLoss = rand() % 10 + 1 / this->strenth;
     hitPoints = hitPoints - healthLoss;
 }
 
+int Player::getHealth() {
+    return hitPoints;
+}
+
 void Player::printInfo()
 {
-    cout << "your Players name is " << name << " you have " << money << " gold " << " and have " << strenth << " strenth" << endl;
+    cout << "you are " << name << " you have " << money << " gold " << " and have " << strenth << " strenth" << endl;
 }
     
+char Player::getAction(Creature *theTarget){
+  char action;
 
+  while ((action != 'f') && (action != 'b')){
+    cout << "\nWould you like to fight or bribe?\n";
+    cout << "To fight enter 'f'\n";
+    cout << "To bribe enter 'b'\n";
+    cin >> action;
+  }
+  
+  return action;
+    if(action == 'f'){
+      attack(theTarget);
+  }
+
+  if(action == 'b'){
+    bribe(*theTarget);
+  }
+
+}

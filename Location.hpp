@@ -1,28 +1,28 @@
 #include<iostream>
-#include <time.h>
-
+#include<string>
 using namespace std;
+ 
 
 class Location
-{ 
-  string discription;
-  int monsters;
-  int treasure;
-
+{
+  private:
+    string description;
+    int treasure;
   public:
-    string showDiscription();
-    Location(string discription);
-    ~Location();
+    Location(string description);
+    //void getLocation();
+    string getDescription(int location);
+    int getTreasure(); 
 };
 
-Location::Location(string theDiscription){
-  discription = theDiscription;
+Location::Location(string description){
+    this->description = description;
 }
 
-Location::~Location(){
-  cout << "destroying room " << endl;
+string Location::getDescription(int location){
+  return this->description;
 }
 
-string Location::showDiscription(){
-  return discription;
+int Location::getTreasure(){
+  return this->treasure;
 }
