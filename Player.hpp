@@ -27,13 +27,14 @@ class Player
     void decreaseHealth(int strike);
     int getHealth();
     int getLoc();
-    char getAction(Creature *theTarget);
+    // string getAction(Creature *theTarget);
     void bribe(Creature theTarget);
 };
 
 Player::Player(string name, int numRooms){
     this->name = name;
     this->numRooms = numRooms;
+    hitPoints = 10;
     location = 0;
 }
 
@@ -80,16 +81,20 @@ void Player::bribe(Creature theTarget){
     cout << "How much will you bribe?" << endl;
     cin >> amount;
     if (amount > money){
-      cout << "you dont't have enough money the Creature gets angry and attacks you" << endl;
+      cout << "How dare you try to fool me you dont have the money for that: The Creature gets angry and attacks you" << endl;
       decreaseHealth(2);
-    }else{
+    }else if(amount < theTarget.getGreed()){
+      cout << "YOU THINK THAT IS ENOUGH COIN TO BUY ME OUT:" << theTarget.getName() << " in rage strikes you" << endl;
+      decreaseHealth(2);
+    }
+    else{
       money = money - amount; 
     }
   }
 
 
 void Player::decreaseHealth(int stirke) {
-    int healthLoss = rand() % 10 + 1 / this->strenth;
+    int healthLoss = rand() % 10 + stirke / this->strenth;
     hitPoints = hitPoints - healthLoss;
 }
 
@@ -102,23 +107,4 @@ void Player::printInfo()
     cout << "you are " << name << " you have " << money << " gold " << " and have " << strenth << " strenth" << endl;
 }
     
-char Player::getAction(Creature *theTarget){
-  char action;
 
-  while ((action != 'f') && (action != 'b')){
-    cout << "\nWould you like to fight or bribe?\n";
-    cout << "To fight enter 'f'\n";
-    cout << "To bribe enter 'b'\n";
-    cin >> action;
-  }
-  
-  return action;
-    if(action == 'f'){
-      attack(theTarget);
-  }
-
-  if(action == 'b'){
-    bribe(*theTarget);
-  }
-
-}

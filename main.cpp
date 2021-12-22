@@ -8,6 +8,7 @@ const int numOfRooms = 3;
 Player *myPlayer = new Player("Bob", numOfRooms);
 Creature *Boss = new Creature("Devil");
 
+Creature *test = new Creature("Devil2");
 
 //create world by creating a dymic arrary of locaitons 
 Location *world[numOfRooms]= {
@@ -19,34 +20,62 @@ Location *world[numOfRooms]= {
 
 void getWorldLoc(Location *world,Player *thePlayer){
   cout << "Before moving. The Location is: ";
-  cout << world->getDescription(thePlayer->getLoc())<< endl;
+  cout << world->getDescription(thePlayer->getLoc()) << endl;
   cout << "After Moving. The Location is: ";
-  cout << world->getDescription(thePlayer->getLoc())<< endl;
+  cout << world[thePlayer->getLoc()].getDescription(thePlayer->getLoc());
 
+  
+
+
+  
 }
 
-char getAction(Player *thePlayer,Creature *theTarget){
-  char action;
+string getAction(Player *thePlayer,Creature *theTarget){
+  string action;
 
-  while ((action != 'f') && (action != 'b')){
+  while ((action != "fight") && (action != "bribe")){
     cout << "Would you like to fight or bribe?" << endl;
-    cout << "To fight enter 'f'" << endl;
-    cout << "To bribe enter 'b'" << endl;
-    cout << "to go left enter 'move left'" << endl;
-    cout << "to go right enter 'move right'" << endl;
+    cout << "To fight enter fight" << endl;
+    cout << "To bribe enter 'bribe'" << endl;
     cin >> action;
   }
-  
+
   return action;
-    if(action == 'f'){
+    if(action == "fight"){
       thePlayer->attack(theTarget);
   }
 
-  if(action == 'b'){
+  if(action == "bribe"){
     thePlayer->bribe(*theTarget);
   }
 
 }
+
+string getMovement(Player *thePlayer){
+  string action;
+  while ((action != "left") && (action != "right")){
+    cout << "Which path will you take?" << endl;
+    cout << "There are two paths on leading to the right and one to the lef" << endl;
+    cin >> action;
+  }
+
+  return action;
+    if(action == "left"){
+
+  }
+
+  if(action == "right"){
+    
+  }
+}
+
+void battle(Player *thePlayer,Creature *theTarget){
+  while ((thePlayer->getHealth() <= 0) && (theTarget->getHealth() <=0)){
+    getAction(thePlayer,theTarget);
+
+  }
+}
+ 
 
 void story(Player thePlayer, Creature theBoss){
   cout << "thou are sir" << thePlayer.getName() << " thou are thy brave knight who has been tasked in defeating thy evil demon" << theBoss.getName()<< " go forth with thou great chivalry and bravery to save thy day" << " if thou are stuck type help thy when a action is needed to be selected" << endl;
@@ -58,20 +87,17 @@ void help(){
 
 int main(){
 
-story(*myPlayer,*Boss);
-
-myPlayer->attack(Boss);
-
+// story(*myPlayer,*Boss);
+myPlayer->moveRight();
 getWorldLoc(*world,myPlayer);
-  
-cout << myPlayer->getLoc() << endl;
-  
 myPlayer->moveRight();
   
-cout << myPlayer->getLoc() << endl;
-getWorldLoc(*world,myPlayer);
 
-myPlayer->moveRight();
-cout << myPlayer->getLoc() << endl;
+  
+
+
+
+
+
 
 }

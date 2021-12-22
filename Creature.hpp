@@ -13,7 +13,7 @@ class Creature
     float money;
     int strenth;
     int location;
-    //int random = rand() % 10 + 1;
+    int greed;
 
 
 public:
@@ -24,10 +24,12 @@ public:
     double getMoney();
     void printInfo();
     string getName();
-    void attack(Creature theTarget);
+    int attack();
     void decreaseHealth(int strike);
     ~Creature();
     int getHealth();
+    int getGreed();
+    int getStrenth();
 
 
 };
@@ -38,6 +40,7 @@ Creature::Creature(string theName) {
     money = rand() % 10 + 1;
     hitPoints = rand() % 10 + 1;
     strenth = rand() % 10 + 1;
+    greed = rand() % 10 + 1;
 }
 
 
@@ -48,43 +51,51 @@ Creature::~Creature() {
 
 void Creature::setName(string nameIn)
 {
-    name = nameIn;
+  name = nameIn;
 }
 
 string Creature::getName() {
-    return name;
+  return name;
 }
 
 
 double Creature::getMoney() {
-    return money;
+  return money;
 }
 
 void Creature::addMoney(int moneyIn) {
-    money = money + moneyIn;
+  money = money + moneyIn;
 }
 
 void Creature::minusMoney(int moneyOut) {
-    money = money - moneyOut;
+  money = money - moneyOut;
 }
 
 
-void Creature::attack(Creature theTarget) {
-    int strike = this->strenth + rand() % 10 + 1;
-    theTarget.decreaseHealth(strike);
-    cout << "You strike " << theTarget.getName() << " the impact leaves them with " << theTarget.getHealth() << "health left " << endl;
+int Creature::attack() {
+  int strike = this->strenth + rand() % 10 + 1;
+  return strike;
 }
 
 int Creature::getHealth() {
-    return hitPoints;
+  return hitPoints;
 }
 
+int Creature::getGreed() {
+  return greed;
+}
+
+int Creature::getStrenth(){
+  return strenth;
+}
+
+
 void Creature::decreaseHealth(int strike) {
-    int healthLoss = rand() % 10 + 1 / this->strenth;
-    hitPoints = hitPoints - healthLoss;
+  int healthLoss = rand() % 10 + 1 / this->strenth;
+  hitPoints = hitPoints - healthLoss;
 }
 
 void Creature::printInfo()
 {
-    cout << "the Creatures name is " << name << " they have " << money << " gold " << " and have " << strenth << " strenth" << endl;
+  cout << "the Creatures name is " << name << " they have " << money << " gold " << " and have " << strenth << " strenth" << endl;
 }
