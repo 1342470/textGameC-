@@ -13,6 +13,9 @@ class Player
     int hitPoints;
     float money;
     int strenth;
+    int score;
+    int level;
+    int exp;
   public:
     Player(string name, int numRooms);
     string getName();
@@ -23,8 +26,18 @@ class Player
     void addMoney(int moneyIn);
     double getMoney();
     void printInfo();
+    int getScore();
+    int getExp();
+    int getStrenth();
+    void setExp(int theExp);
+    void levelUp();
+    void setScore(int theScore);
+    void setStrenth(int theScore);
+    int setExp();
+    void setHealth(int theHealth);
+    int getLevel();
     void attack(Creature *theTarget);
-    void decreaseHealth(int strike);
+    int decreaseHealth(int strike);
     int getHealth();
     int getLoc();
     // string getAction(Creature *theTarget);
@@ -36,7 +49,12 @@ Player::Player(string name, int numRooms){
     this->numRooms = numRooms;
     hitPoints = 10;
     location = 0;
+    score = 0;
+    exp = 0;
+    level = 1;
+    money = 20;
 }
+
 
 string Player::getName(){
   return this->name;
@@ -89,22 +107,64 @@ void Player::bribe(Creature theTarget){
     }
     else{
       money = money - amount; 
+      cout << "AHH fine that will do to, you may pass" << endl;
     }
   }
 
 
-void Player::decreaseHealth(int stirke) {
-    int healthLoss = rand() % 10 + stirke / this->strenth;
-    hitPoints = hitPoints - healthLoss;
+int Player::decreaseHealth(int stirke) {
+  int healthLoss = rand() % 10 + stirke - this->strenth;
+  hitPoints = hitPoints - healthLoss;
+  return hitPoints;
 }
 
 int Player::getHealth() {
-    return hitPoints;
+  return hitPoints;
 }
+
+void Player::setHealth(int theHealth) {
+  hitPoints = theHealth + hitPoints;
+}
+
+void Player::setStrenth(int theStrenth) {
+  strenth = theStrenth + strenth;
+}
+
+void Player::setExp(int theExp) {
+  exp = theExp + exp;
+}
+
+
+int Player::getExp() {
+  return exp;
+}
+
+int Player::getLevel() {
+  return level;
+}
+
+
+int Player::getStrenth() {
+  return strenth;
+}
+
+int Player::getScore() {
+  return score;
+}
+
+
+void Player::levelUp() {
+  level++;
+  printInfo();
+}
+
+void Player::setScore(int theScore) {
+ score = score + theScore;
+}
+
 
 void Player::printInfo()
 {
-    cout << "you are " << name << " you have " << money << " gold " << " and have " << strenth << " strenth" << endl;
+    cout << "you have " << money << " gold " << " and have " << strenth << " strenth" << " and have " << health << "now" << endl;
 }
     
-

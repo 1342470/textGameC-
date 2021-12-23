@@ -48,7 +48,6 @@ Creature::~Creature() {
   cout << name << " has died" << endl;
 }
 
-
 void Creature::setName(string nameIn)
 {
   name = nameIn;

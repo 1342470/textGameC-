@@ -11,7 +11,7 @@ class Location
   public:
     Location(string description);
     //void getLocation();
-    string getDescription(int location);
+    string getDescription();
     int getTreasure(); 
 };
 
@@ -19,7 +19,7 @@ Location::Location(string description){
     this->description = description;
 }
 
-string Location::getDescription(int location){
+string Location::getDescription(){
   return this->description;
 }
 
