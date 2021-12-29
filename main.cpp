@@ -1,7 +1,7 @@
 #include<iostream>
 #include "Player.hpp"
 #include "Location.hpp"
-
+#include <stdlib.h>
 
 
 const int numOfRooms = 3;
@@ -37,33 +37,11 @@ void gameOver(Player *thePlayer){
     std::exit(42);
   }
   else if(again == "no" || again == "No"){
-    std::exit(0);
+    //int atexit(void (*func)(void));
   }
   }
 }
 
-
-string getAction(Player *thePlayer,Creature *theTarget){
-  string action;
-  while ((action != "fight") && (action != "bribe")){
-    cout << "Would thy like to Tussle or bribe?" << endl;
-    cout << "To Tussle thy must enter fight" << endl;
-    cout << "To bribe thy must enter bribe" << endl;
-    cin >> action;
-    
-    if(action == "fight"){
-      thePlayer->attack(theTarget);
-      thePlayer->getHealth();
-      thePlayer->decreaseHealth(theTarget->attack());
-  }
-
-  if(action == "bribe"){
-    thePlayer->bribe(*theTarget);
-  }
-
-  }
-
-}
 
 string getMovement(Player *thePlayer){
   string action;
@@ -76,34 +54,58 @@ string getMovement(Player *thePlayer){
   return action;
     if(action == "left"){
       thePlayer->moveLeft();
+      getWorldLoc(*world,myPlayer);
   }
 
     if(action == "right"){
       thePlayer->moveRight();
+      getWorldLoc(*world,myPlayer);
   }
 }
 
-//signal: illegal instruction (core dumped) on fight and bribe
+
 void battle(Player *thePlayer,Creature *theTarget){
-getAction(thePlayer,theTarget);
-  while ((thePlayer->getHealth() != 0) && (theTarget->getHealth() !=0)){
-    if(thePlayer->getHealth() == 0){
-      gameOver(thePlayer);
-    }else{
-    getAction(thePlayer,theTarget);
-    if(theTarget->getHealth() == 0){
+  string action;  
+    while ((action != "fight") && (action != "bribe")){ 
+    cout << "Would thy like to Tussle or bribe?" << endl;
+    cout << "To Tussle thy must enter fight" << endl;
+    cout << "To bribe thy must enter bribe" << endl;
+    cin >> action;
+    
+    if(action == "fight"){
+      thePlayer->attack(theTarget);
+      thePlayer->getHealth();
+      if(theTarget->getHealth() >=0){
+        thePlayer->decreaseHealth(theTarget->attack());
+        cout << theTarget->getName() << " striketh backeth dealing  thee anon has't " << thePlayer->getHealth() << " health hath left" ;
+      }
+      if(thePlayer->getHealth() <= 0){
+        gameOver(thePlayer);
+      }else if(theTarget->getHealth() <= 0){
       theTarget->~Creature();
+      cout << "sir  " << thePlayer->getName() << " thee has't did gain exp'rience "  << theTarget->getStrenth()+ 10 << endl ;
       thePlayer->setExp(theTarget->getStrenth()+ 10);
-      if(thePlayer->getExp() == 100){
+      cout << "thee anon has't " << thePlayer->getExp() <<  " exp'rience" << endl;
+      if(thePlayer->getExp() >= 100){
         thePlayer->levelUp();
         thePlayer->setHealth(thePlayer->getHealth() + thePlayer->getLevel() * 1);
         thePlayer->setStrenth(thePlayer->getStrenth() + thePlayer->getLevel() * 1);
       }
       
     }
+    else{
+      action = "next";
+      }
+    } 
+  if(action == "bribe"){
+    thePlayer->bribe(*theTarget);
+    action = "next";
+  }
     }
   }
-}
+
+ 
+
  
 
 void story(Player thePlayer, Creature theBoss){
@@ -114,9 +116,17 @@ void help(){
   cout << "your goal is to get to the evil villans casle and defeat the demon in order to save the world to to move your player type in either move left or right to move, to fight when in battle press f, to bribe a monster press b. If you lose all your health it is gameover." << endl;
 }
 
-int main(){
-story(*myPlayer,*Boss);
-battle(myPlayer,Boss );
-getMovement(myPlayer);
-
+void game(){
+  getMovement(myPlayer);
+  getWorldLoc(*world,myPlayer);
+  battle(myPlayer,Boss );
+  getMovement(myPlayer);
 }
+
+int main(){
+  story(*myPlayer,*Boss);
+  game();
+
+return 0;
+}
+

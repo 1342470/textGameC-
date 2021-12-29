@@ -72,7 +72,7 @@ void Creature::minusMoney(int moneyOut) {
 
 
 int Creature::attack() {
-  int strike = this->strenth + rand() % 10 + 1;
+  int strike = this->strenth + rand() % 5 + 1;
   return strike;
 }
 

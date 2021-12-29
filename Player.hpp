@@ -47,7 +47,7 @@ class Player
 Player::Player(string name, int numRooms){
     this->name = name;
     this->numRooms = numRooms;
-    hitPoints = 10;
+    hitPoints = 25;
     location = 0;
     score = 0;
     exp = 0;
@@ -89,9 +89,11 @@ int Player::getLoc(){
 }
 
 void Player::attack(Creature *theTarget){
-    int strike = this->strenth + rand() % 10 + 1;
+    int crit = rand() % 5;
+    int strike;
+    if(crit == 3){int strike = this->strenth + rand() % 10 + 10;}else{int strike = this->strenth + rand() % 10 + 1;}
     theTarget->decreaseHealth(strike);
-    cout << "You strike " << theTarget->getName() << " the impact leaves them with " << theTarget->getHealth() << " health left " << endl ;
+    cout << "thee striketh " << theTarget->getName() << " dealing " << strike << " damage the impact leaves them with " << theTarget->getHealth() << " health left " << endl ;
 }
 
 void Player::bribe(Creature theTarget){
@@ -165,6 +167,6 @@ void Player::setScore(int theScore) {
 
 void Player::printInfo()
 {
-    cout << "you have " << money << " gold " << " and have " << strenth << " strenth" << " and have " << health << "now" << endl;
+    cout << "you have " << money << " gold " << " and have " << strenth << " strenth" << " and have " << hitPoints << "now" << endl;
 }
     
