@@ -52,7 +52,7 @@ void gameOver(Player *thePlayer){
 string getMovement(Player *thePlayer){
   string action;
   while ((action != "left") && (action != "right")){
-    cout << "Which path will thy take?" << endl;
+    cout << "which path shall thy taketh?" << endl;
     // cout << "There are two paths on leading to the right and one to the left" << endl;
     cin >> action;
   
@@ -66,13 +66,13 @@ string getMovement(Player *thePlayer){
       thePlayer->moveRight();
       getWorldLoc(world,myPlayer);
       return action;
-  }
+  }else{cout << "i dont knoweth yond action" << endl; return action;}
 
   }
 }
 
 void help(){
-  cout << "your goal is to get to the evil villans casle and defeat the demon in order to save the world to to move your player type in either move left or right to move, to fight when in battle press f, to bribe a monster press b. If you lose all your health it is gameover." << endl;
+  cout << "your goal is to get to the evil villans castle and defeat the demon in order to save the world to to move your player type in either move left or right to move, to fight when in battle type fight, to bribe a monster type bribe. If you lose all your health it is gameover." << endl;
 }
 
 void battle(Player *thePlayer,Creature *theTarget){
@@ -129,10 +129,8 @@ void battle(Player *thePlayer,Creature *theTarget){
       cout << "sir  " << thePlayer->getName() << " thee has't did gain exp'rience "  << theTarget->getStrenth()+ 10 << endl ;
       thePlayer->setExp(theTarget->getStrenth()+ 10);
       cout << "thee anon has't " << thePlayer->getExp() <<  " exp'rience" << endl;
-      if(thePlayer->getExp() >= 100){
+      if(thePlayer->getExp() >= 25){
         thePlayer->levelUp();
-        thePlayer->setHealth(thePlayer->getHealth() + thePlayer->getLevel() * 1);
-        thePlayer->setStrenth(thePlayer->getStrenth() + thePlayer->getLevel() * 1);
       }
       
     }
@@ -156,7 +154,8 @@ void battle(Player *thePlayer,Creature *theTarget){
  
 
 void story(Player thePlayer, Creature theBoss){
-  cout << "thou are sir " << thePlayer.getName() << " thou are thy brave knight who has been tasked in defeating thy evil demon" << theBoss.getName()<< " go forth with thou great chivalry and bravery to save thy day" << " if thou are stuck type help thy when a action is needed to be selected" << endl;
+
+  cout << "thou are sir " << thePlayer.getName() << " thou are thy brave knight who has been tasked in defeating thy evil demon " << theBoss.getName()<< " go forth with thou great chivalry and bravery to save thy day" << " if thou are stuck type help thy when a action is needed to be selected" << endl;
 }
 
 void darkWoods(){
@@ -170,39 +169,84 @@ void darkWoods(){
 void bazar(){
   while (myPlayer->getHealth() > 0){
     if(myPlayer->getLoc() == 1){
-      getWorldLoc(world,myPlayer);
       string action;
       while ((action != "talk") || (action != "right")){
-        cout << "what will you do you can either 'talk' to the shopkeppers or go 'right' back to the town center?" << endl;
-        cin >> action;
+        cout << "what will you do you can either 'talk' to the shopkeppers or go 'right' to head out of town" << endl;
+      cin >> action;
 
-        if(action == "talk"){
-          string talk;
-          while((talk != "health") || (action != "strenth")){
-            cout << "which shopkeeper will you speak to you can either talk to the 'health' shopkeeper or the 'strenth' shopkeeper?" << endl;
-            cin >> talk;
-
-            if(talk == "health"){
-              string buy;
-                while((buy != "yes") || (buy !="no"))
-                  cout << "Hello their good sir would you like to buy a health potion it will cost you 5 Gold" << endl; 
+      if(action == "talk"){
+      string itemAction;
+      while ((itemAction != "health") && (itemAction != "health") && (itemAction != "back")){
+         cout << "which shopkeeper will you speak to you can either talk to the 'health' shopkeeper or the 'strenth' shopkeeper? If you deside you don't want anything go 'back' to the bazar hub" << endl;
+        cin >> itemAction;
+        if(itemAction == "back"){
+          action = "next";
+        }else if(itemAction == "health"){
+          string responce;
+          while ((responce != "yes") && (itemAction != "no")){
+            cout << "Hello their good sir would you like to buy a health potion it will cost you 5 Gold" << endl; 
+            cin >> responce;
+            if(responce == "yes" && myPlayer->getMoney() > 5){
+              cout << "The shopkeeper replys: thanketh thee f'r thy purchaseth" << endl;
+              myPlayer->addHealthItem();
+              myPlayer->minusMoney(5);
+              cout << " After buying a health potion you now have " << myPlayer->getHealthItem() << " health potions and have " << myPlayer->getMoney() << " gold left" <<endl;
+              action = "next";
+          }else if(responce == "yes" && myPlayer->getMoney() < 5) {
+            cout << "s'rry thee dont has't enow wage i cannot do free giveaways" << endl;
+            action = "next";
+          }else if(responce == "no"){
+            cout << "fine suiteth thy self" << endl;
+            itemAction = "no";
+            action = "next";
+            
             }
-
           }
-      }
-        if(action == "north"){
-          myPlayer->moveRight();
-          darkWoods();
         }
+         if(itemAction == "strenth"){
+          string responce;
+          while ((responce != "yes") && (itemAction != "no")){
+            cout << "Hello their good sir would you like to buy a strenth potion it will cost you 15 Gold" << endl; 
+            cin >> responce;
+            if(responce == "yes" && myPlayer->getMoney() > 15){
+              cout << "The shopkeeper replys: thanketh thee f'r thy purchaseth" << endl;
+              myPlayer->addStrenthItem();
+              myPlayer->minusMoney(15);
+              cout << " After buying a Strenth potion you now have " << myPlayer->getStrenthItem() << " strenth potions and have "  << myPlayer->getMoney() << " gold left" <<endl;
+              action = "next";
+          }else if(responce == "yes" && myPlayer->getMoney() < 15) {
+            cout << "s'rry thee dont has't enow wage i cannot do free giveaways";
+            action = "next";
+          }else if(responce == "no"){
+            cout << "fine suiteth thy self";
+            action = "next";
+          }
+
+        }
+          }
+        
       }
-      
-  
     }
+    if(action == "right"){
+      myPlayer->moveRight();
+      darkWoods();
+    }
+    else{
+      action = "next";
+      }
+    } 
+if(action == "help"){
+    help();
+    action = "next";
+  }
+    }
+    }
+  }
+  
+    
 
   
 
-  }
-}
 
 void homeTown(){
   while (myPlayer->getHealth() > 0){
@@ -217,12 +261,7 @@ void homeTown(){
 }
 
 void game(){
-
-  getMovement(myPlayer);
-
-  getMovement(myPlayer);
-
-  getMovement(myPlayer);
+  homeTown();
 }
 
 int main(){

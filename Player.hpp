@@ -62,7 +62,7 @@ Player::Player(string name, int numRooms){
     level = 1;
     money = 20;
     healthItem = 1;
-    strenth = 0;
+    strenth = 1;
 }
 
 
@@ -74,13 +74,13 @@ string Player::getName(){
 void Player::moveLeft(){
   if(location > 0){
     location--;
-  }  
+  }else{cout << "thee cannot traveleth this wayy" << endl;}
 }
 
 void Player::moveRight(){
   if(location < numRooms){
     location++;
-  } 
+  }else{cout << "thee cannot traveleth this way" << endl;}
 }
 
 double Player::getMoney(){
@@ -109,7 +109,7 @@ void Player::attack(Creature *theTarget){
 
 void Player::bribe(Creature theTarget){
     int amount;
-    cout << "How much will you bribe?" << endl;
+    cout << "How much shall thee bribe?" << endl;
     cin >> amount;
     if (amount > money){
       cout << "How dare you try to fool me you dont have the money for that: The Creature gets angry and attacks you" << endl;
@@ -168,7 +168,10 @@ int Player::getScore() {
 
 void Player::levelUp() {
   level++;
-  printInfo();
+  cout << "sir " << this->getName() << " thee has't level'd up thee anon art leveleth " << this->getLevel() << " and has't " << this->getHealth() << " health and " << this->getStrenth() << "strenth" << endl;
+  this->setExp(0);
+  this->setHealth(this->getHealth() + this->getLevel() * 1);
+  this->setStrenth(this->getStrenth() + this->getLevel() + 1);
 }
 
 void Player::setScore(int theScore) {
@@ -178,7 +181,7 @@ void Player::setScore(int theScore) {
 
 void Player::printInfo()
 {
-    cout << "you have " << money << " gold " << " and have " << strenth << " strenth" << " and have " << hitPoints << "now" << endl;
+    cout << " thee has't " << money << " gold " << " and has't " << strenth << " strenth" << " and has't " << hitPoints << " health now" << endl;
 }
 
 int Player::getHealthItem(){
