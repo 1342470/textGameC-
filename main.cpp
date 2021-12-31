@@ -159,7 +159,7 @@ void story(Player thePlayer, Creature theBoss){
 }
 
 void darkWoods(){
-
+  getWorldLoc(world,myPlayer);
 }
 
 
@@ -170,11 +170,17 @@ void bazar(){
   while (myPlayer->getHealth() > 0){
     if(myPlayer->getLoc() == 1){
       string action;
-      while ((action != "talk") || (action != "right")){
-        cout << "what will you do you can either 'talk' to the shopkeppers or go 'right' to head out of town" << endl;
+      while ((action != "talk") && (action != "right") && (action !="help")){
+        cout << "you can either 'talk' to the shopkeppers or go 'right' to head out of town" << endl;
       cin >> action;
-
-      if(action == "talk"){
+      if(action == "right"){
+      myPlayer->moveRight();
+      darkWoods();
+    }else if(action == "help"){
+    help();
+    action = "next";
+  }
+    else if(action == "talk"){
       string itemAction;
       while ((itemAction != "health") && (itemAction != "health") && (itemAction != "back")){
          cout << "which shopkeeper will you speak to you can either talk to the 'health' shopkeeper or the 'strenth' shopkeeper? If you deside you don't want anything go 'back' to the bazar hub" << endl;
@@ -227,18 +233,11 @@ void bazar(){
         
       }
     }
-    if(action == "right"){
-      myPlayer->moveRight();
-      darkWoods();
-    }
+
     else{
       action = "next";
       }
     } 
-if(action == "help"){
-    help();
-    action = "next";
-  }
     }
     }
   }
