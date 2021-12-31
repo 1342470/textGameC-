@@ -16,6 +16,8 @@ class Player
     int score;
     int level;
     int exp;
+    int healthItem;
+    int strenthItem;
   public:
     Player(string name, int numRooms);
     string getName();
@@ -40,6 +42,12 @@ class Player
     int decreaseHealth(int strike);
     int getHealth();
     int getLoc();
+    int getHealthItem();
+    int getStrenthItem();
+    int useHealthItem();
+    int useStrenthItem();
+    int addHealthItem();
+    int addStrenthItem();
     // string getAction(Creature *theTarget);
     void bribe(Creature theTarget);
 };
@@ -53,7 +61,10 @@ Player::Player(string name, int numRooms){
     exp = 0;
     level = 1;
     money = 20;
+    healthItem = 1;
+    strenth = 0;
 }
+
 
 
 string Player::getName(){
@@ -169,4 +180,33 @@ void Player::printInfo()
 {
     cout << "you have " << money << " gold " << " and have " << strenth << " strenth" << " and have " << hitPoints << "now" << endl;
 }
+
+int Player::getHealthItem(){
+  return healthItem;
+}
+
+int Player::getStrenthItem(){
+  return strenthItem;
+}
     
+int Player::addHealthItem(){
+  healthItem++;
+  return healthItem;
+}
+
+int Player::addStrenthItem(){
+  strenthItem++;
+  return strenthItem;
+}
+
+int Player::useHealthItem(){
+  this->hitPoints = hitPoints + 10;
+  healthItem--;
+  return healthItem;
+}
+
+int Player::useStrenthItem(){
+  this->strenth = strenth + 1;
+  strenthItem--;
+  return strenthItem;
+}
