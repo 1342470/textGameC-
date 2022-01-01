@@ -18,6 +18,7 @@ class Player
     int exp;
     int healthItem;
     int strenthItem;
+    string title;
   public:
     Player(string name, int numRooms);
     string getName();
@@ -52,6 +53,8 @@ class Player
     void bribeSuccess(Creature theTarget);
     // string getAction(Creature *theTarget);
     void bribe(Creature theTarget);
+    void setTitle(string theTitle);
+    string getTitle();
 };
 
 Player::Player(string name, int numRooms){
@@ -106,6 +109,7 @@ void Player::attack(Creature *theTarget){
     int strike;
     if(crit == 3){int strike = this->strenth + rand() % 10 + 10;}else{int strike = this->strenth + rand() % 10 + 1;}
     theTarget->decreaseHealth(strike);
+    cout <<endl;
     cout << "thee striketh " << theTarget->getName() << " dealing " << strike << " damage the impact leaves them with " << theTarget->getHealth() << " health left " << endl ;
 }
 
@@ -163,6 +167,15 @@ void Player::setExp(int theExp) {
 
 int Player::getExp() {
   return exp;
+}
+
+void Player::setTitle(string theTitle) {
+  title = theTitle;
+}
+
+
+string Player::getTitle() {
+  return title;
 }
 
 int Player::getLevel() {
