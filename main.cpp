@@ -19,7 +19,7 @@ Location *world[numOfRooms]= {
   new Location("The peaceful City Manclesester where you currently live within before you leave you may want to visit the store from the right path exit where you may find some items with you that may help you on your jurney"),
   new Location("In the bazzar you see two shopKeepers one calls out exclaming that they have many healing potions that may come handy.The second Keeper seems to be selling strenth potions however it seems like these potions are quite expensive"), 
   new Location("You are in a deep Forest full of large towering oak trees, due to the mass number of trees around you the light is faint however you are able to see in front of you a monster is blocking the path ahead, the monster spots you and starts to sprint towards you get ready for battle."), 
-  new Location("A safe area which has a cave surrounded by two large fields of flowers. By the cave you see a man near a campfire, he looks like he has a huge backback full of wares"),
+  new Location("A safe area which has a cave surrounded by two large fields of flowers. By the cave you see a man near a campfire, he looks like he has a huge backback full of wares. You can either 'speak' to the shopkepper sat by the campfire or go 'forward' to head out toward out into the field"),
   new Location("Finaly after your jurney you have reached the lare of the demon king around you are great paintings of the previous leaders as well as a winding long carpet that leads to a fork before the path splits their are a number of creatures before you"),
   new Location("In the demon kings thrown room you see the demon king at the end of the room sat in a great thrown with ")
   }; 
@@ -128,14 +128,17 @@ void battle(Player *thePlayer,Creature *theTarget){
       if(theTarget->getHealth() >=0){
         thePlayer->decreaseHealth(theTarget->attack());
         cout <<endl;
-        cout << theTarget->getName() << " striketh backeth thee anon has't " << thePlayer->getHealth() << " health hath left" <<endl ;
+        cout << theTarget->getName() << " striketh backeth thee anon has't " << thePlayer->getHealth() << " health hath left" <<endl <<endl ;
       }
       if(thePlayer->getHealth() <= 0){
         gameOver(thePlayer);
       }else if(theTarget->getHealth() <= 0){
       theTarget->~Creature();
       cout <<endl;
-      cout << thePlayer->getTitle() << thePlayer->getName() << " thee has't did gain exp'rience "  << theTarget->getStrenth()+ 10 << endl ;
+      cout << thePlayer->getTitle() << " " << thePlayer->getName() << " thee hasn't did gain " << theTarget->getStrenth()+ rand() % 10 + 1 << " gold " << endl;
+      thePlayer->setMoney(theTarget->getStrenth()+ rand() % 10 + 1 );
+      cout << "thee anon has't " << thePlayer->getMoney() <<  " gold " << endl;
+      cout << thePlayer->getTitle() << " " <<  thePlayer->getName() << " thee has't did gain " << theTarget->getStrenth()+ rand() % 10 + 1 << " exp'rience " << endl ;
       thePlayer->setExp(theTarget->getStrenth()+ 10);
       cout << "thee anon has't " << thePlayer->getExp() <<  " exp'rience" << endl;
       if(thePlayer->getExp() >= 25){
@@ -213,8 +216,89 @@ void getName(Player *thePlayer){
   }
 } 
 
-void safeZone(){
+void demonCastleEntry(){
+  cout << "test" << endl;
+}
 
+void safeZone(){
+  while (myPlayer->getHealth() > 0){
+      string action;
+      while ((action != "speak") && (action != "forward") && (action !="help")){
+      getWorldLoc(world,myPlayer);
+      cin >> action;
+      if(action == "forward"){
+      myPlayer->moveRight();
+      demonCastleEntry();
+    }else if(action == "help"){
+    help();
+    action = "next";
+  }
+    else if(action == "speak"){
+      string itemAction;
+      while ((itemAction != "health") && (itemAction != "strenth") && (itemAction != "back")){
+        cout << endl;
+        cout << "valorous day i've did get two typeth of items f'r sale wouldst thee liketh to seeth a health of a strenth potion If you deside you don't want anything go 'back' to the bazar hub" << endl;
+        cin >> itemAction;
+        if(itemAction == "back"){
+          action = "next";
+        }else if(itemAction == "health"){
+          string responce;
+          while ((responce != "yes") && (itemAction != "no")){
+            cout << endl;
+            cout << "Hello their good " << myPlayer->getTitle() << " would you like to buy a health potion it will cost you 9 Gold" << endl; 
+            cin >> responce;
+            if(responce == "yes" && myPlayer->getMoney() > 8){
+              cout << endl;
+              cout << "The shopkeeper replys: thanketh thee f'r thy purchaseth" << endl;
+              myPlayer->addHealthItem();
+              myPlayer->minusMoney(5);
+              cout << " After buying a health potion you now have " << myPlayer->getHealthItem() << " health potions and have " << myPlayer->getMoney() << " gold left" <<endl;
+              itemAction = "next";
+          }else if(responce == "yes" && myPlayer->getMoney() <= 8) {
+            cout << endl;
+            cout << "s'rry thee dont has't enow wage i cannot do free giveaways";
+            safeZone();
+          }else if(responce == "no"){
+            cout << endl;
+            cout << "fine suiteth thy self" << endl;
+            safeZone();
+            
+            }
+          }
+        }
+         if(itemAction == "strenth"){
+          string responce;
+          while ((responce != "yes") && (itemAction != "no")){
+            cout << endl;
+            cout << "Hello their good " << myPlayer->getTitle() << " would you like to buy a strenth potion it will cost you 20 Gold" << endl; 
+            cin >> responce;
+            if(responce == "yes" && myPlayer->getMoney() > 19){
+              cout << "The shopkeeper replys: thanketh thee f'r thy purchaseth" << endl;
+              myPlayer->addStrenthItem();
+              myPlayer->minusMoney(15);
+              cout << " After buying a Strenth potion you now have " << myPlayer->getStrenthItem() << " strenth potions and have "  << myPlayer->getMoney() << " gold left" <<endl;
+              itemAction = "next";
+          }else if(responce == "yes" && myPlayer->getMoney() <= 19) {
+            cout << endl;
+            cout << "s'rry thee dont has't enow wage i cannot do free giveaways";
+            safeZone();
+          }else if(responce == "no"){
+            cout << endl;
+            cout << "fine suiteth thy self";
+            safeZone();
+          }
+
+        }
+          }
+        
+      }
+    }
+
+    else{
+      action = "next";
+      }
+      }
+    } 
 }
 
 void darkWoods(){
@@ -225,26 +309,26 @@ void darkWoods(){
   cout << Troll->getName() << " appears " << endl;
   battle(myPlayer,Troll);
   cout << endl;
-  cout << "after the battle with the first creature the sounds grabs the attention of one of its fellow allies, you must get ready for battle one again" << endl;
+  cout << "after the battle with the first creature the sounds grabs the attention of one of its fellow allies, you must get ready for battle one again" << endl << endl;
   cout << Troll->getName() << " aproaches " << endl;
   battle(myPlayer,Troll2);
   cout <<endl;
-  cout << "Now all creatures that plauged this area has been taken care of you see that their is a path that winds down into three paths. Some say that two of these paths is cursed and those that lead that route is doomed to wander in the lost woods for eturnaty, pick carefully" << endl;
   while ((movement != "left") && (movement != "center") && (movement !="right")){
+    cout << "Now all creatures that plauged this area has been taken care of you see that their is a path that winds down into three paths. Some say that two of these paths is cursed and those that lead that route is doomed to wander in the lost woods for eturnaty, one path goes to the 'left', one to the 'right' and one in the 'center'. pick carefully" << endl;
         cin >> movement;
         if(movement == "left"){
             cout <<endl;
             cout << " thee picketh the hath left path howev'r thee findeth thee didn't taketh the warning of the hath lost woods thee wand'r aimlessly until thee passeth out" << endl;
             gameOver(myPlayer);
           }else if(movement == "center"){
-            cout <<endl;
-            cout << " thee picketh the hath center path howev'r thee findeth thee didn't taketh the warning of the hath lost woods thee wand'r aimlessly until thee passeth out" << endl;
-            gameOver(myPlayer);
-          }else if(movement == "right"){
             myPlayer->moveRight();
             getWorldLoc(world,myPlayer);
             safeZone();
-          }
+          }else if(movement == "right"){
+            cout <<endl;
+            cout << " thee picketh the hath center path howev'r thee findeth thee didn't taketh the warning of the hath lost woods thee wand'r aimlessly until thee passeth out" << endl;
+            gameOver(myPlayer);
+          }else{ movement = "next";}
         }
      
   
@@ -357,7 +441,7 @@ void homeTown(){
             bazar();
           }else if(action == "talk"){
             cout << endl;
-            cout << "Ho traveleth'r a tipeth f'r thee, if 't be true thee ev'r headeth into the dark woods tryeth to sayeth hence from the far left path and center path. Those gents sayeth yond that those path leads into a endless path and traveleth'rs yond wend yond way art nev'r seen again." << endl << endl;
+            cout << "Ho traveleth'r a tipeth f'r thee, if 't be true thee ev'r headeth into the dark woods tryeth to sayeth hence from the far left path and right path. Those gents sayeth yond that those path leads into a endless path and traveleth'rs yond wend yond way art nev'r seen again." << endl << endl;
             action = "next";
           }
         }

@@ -36,6 +36,7 @@ class Player
     void levelUp();
     void setScore(int theScore);
     void setStrenth(int theScore);
+    void setMoney(int theMoney);
     void setName(string theName);
     int setExp();
     void setHealth(int theHealth);
@@ -156,6 +157,10 @@ void Player::setStrenth(int theStrenth) {
   strenth = theStrenth + strenth;
 }
 
+void Player::setMoney(int theMoney) {
+  money = theMoney + money;
+}
+
 void Player::setName(string theName){
   this->name = theName;
 }
@@ -196,7 +201,7 @@ void Player::levelUp() {
   level++;
   cout << "sir " << this->getName() << " thee has't level'd up thee anon art leveleth " << this->getLevel() << " and has't " << this->getHealth() << " health and " << this->getStrenth() << "strenth" << endl;
   this->setExp(0);
-  this->setHealth(this->getHealth() + this->getLevel() * 1);
+  this->setHealth(this->getHealth() + this->getLevel() + 10);
   this->setStrenth(this->getStrenth() + this->getLevel() + 1);
 }
 
