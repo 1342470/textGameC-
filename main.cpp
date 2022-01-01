@@ -158,6 +158,7 @@ void story(Player thePlayer, Creature theBoss){
   cout << "thou are sir " << thePlayer.getName() << " thou are thy brave knight who has been tasked in defeating thy evil demon " << theBoss.getName()<< " go forth with thou great chivalry and bravery to save thy day" << " if thou are stuck type help thy when a action is needed to be selected" << endl;
 }
 
+<<<<<<< HEAD
 void getName(Player *thePlayer){
   string theName;
   string response;
@@ -185,6 +186,10 @@ void darkWoods(){
   getWorldLoc(world,myPlayer);
   battle(myPlayer,Troll);
   
+=======
+void darkWoods(){
+  getWorldLoc(world,myPlayer);
+>>>>>>> origin/main
 }
 
 
