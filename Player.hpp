@@ -35,6 +35,7 @@ class Player
     void levelUp();
     void setScore(int theScore);
     void setStrenth(int theScore);
+    void setName(string theName);
     int setExp();
     void setHealth(int theHealth);
     int getLevel();
@@ -48,6 +49,7 @@ class Player
     int useStrenthItem();
     int addHealthItem();
     int addStrenthItem();
+    void bribeSuccess(Creature theTarget);
     // string getAction(Creature *theTarget);
     void bribe(Creature theTarget);
 };
@@ -107,6 +109,12 @@ void Player::attack(Creature *theTarget){
     cout << "thee striketh " << theTarget->getName() << " dealing " << strike << " damage the impact leaves them with " << theTarget->getHealth() << " health left " << endl ;
 }
 
+void Player::bribeSuccess(Creature theTarget){
+  int a = 99999999;
+  theTarget.decreaseHealth(a);
+  cout << "after bribing " << theTarget.getName() << "  they disapear into thy surrounding thee can anon moveth on " << endl;
+}
+
 void Player::bribe(Creature theTarget){
     int amount;
     cout << "How much shall thee bribe?" << endl;
@@ -121,6 +129,7 @@ void Player::bribe(Creature theTarget){
     else{
       money = money - amount; 
       cout << "AHH fine that will do to, you may pass" << endl;
+      bribeSuccess(theTarget);
     }
   }
 
@@ -141,6 +150,10 @@ void Player::setHealth(int theHealth) {
 
 void Player::setStrenth(int theStrenth) {
   strenth = theStrenth + strenth;
+}
+
+void Player::setName(string theName){
+  this->name = theName;
 }
 
 void Player::setExp(int theExp) {

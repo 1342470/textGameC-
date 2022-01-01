@@ -1,7 +1,8 @@
 /*The header file for main.cpp*/
 
 #include<iostream>
-#include <time.h>
+     
+
 
 
 using namespace std;
@@ -30,22 +31,27 @@ public:
     int getHealth();
     int getGreed();
     int getStrenth();
+    int setHealth(int theHealth);
 
 
 };
 
 //constrctor 
 Creature::Creature(string theName) {
-    name = theName;
-    money = rand() % 10 + 1;
-    hitPoints = rand() % 10 + 1;
-    strenth = rand() % 10 + 1;
-    greed = rand() % 10 + 1;
+  name = theName;
+  money = rand() % 10 + 1;
+  hitPoints = rand() % 10 + 1;
+  strenth = rand() % 10 + 1;
+  greed = rand() % 10 + 1;
 }
 
 
 Creature::~Creature() {
   cout << name << " has died" << endl;
+}
+
+int Creature::setHealth(int theHealth){
+  hitPoints = theHealth;
 }
 
 void Creature::setName(string nameIn)
@@ -96,5 +102,5 @@ void Creature::decreaseHealth(int strike) {
 
 void Creature::printInfo()
 {
-  cout << "the Creatures name is " << name << " they have " << money << " gold " << " and have " << strenth << " strenth" << endl;
+  cout << "the Creatures name is " << name << " they have " << getHealth() << " health" << " and have " << getGreed() << " greed " << money << " gold " << " and have " << strenth << " strenth" << endl;
 }
