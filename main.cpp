@@ -13,6 +13,9 @@ Creature *Boss = new Creature("Devil");
 Creature *Troll = new Creature("Forest troll");
 Creature *Troll2 = new Creature("Forest troll");
 Creature *shopKeeper = new Creature("shopKeeper");
+Creature *Demon = new Creature("Demon A");
+Creature *Demon1 = new Creature("Demon B");
+Creature *Fianl = new Creature("Demon King");
 
 //create world by creating a dymic arrary of locaitons each location takes a string that is the discription of the location
 Location *world[numOfRooms]= {
@@ -52,6 +55,19 @@ void gameOver(Player *thePlayer){
   }
 }
 
+void gameWin(Player *thePlayer){
+  cout << thePlayer->getTitle() << " " << thePlayer->getName() << " thou hath defeated the demon king, your score was " << thePlayer->getScore() << " and thou hath reached level " << thePlayer->getLevel() << "would you like to try again " << endl;
+  string again;
+  while(again != "yes"|| again !="Yes" || again!="No" || again!="no" ){
+  cin >> again;
+  if(again == "yes" || again == "Yes"){
+    std::exit(42);
+  }
+  else if(again == "no" || again == "No"){
+    cout << " thank you for playing " <<endl;
+  }
+  }
+}
 
 string getMovement(Player *thePlayer){
   string action;
@@ -85,6 +101,7 @@ void help(){
 void battle(Player *thePlayer,Creature *theTarget){
   string action;  
     while ((action != "fight") && (action != "bribe") && (action != "item")){ 
+    cout << endl;
     cout << "Would thy like to Tussle or bribe?" << endl;
     cout << "To Tussle thy must enter fight" << endl;
     cout << "To bribe thy must enter bribe" << endl;
@@ -93,6 +110,7 @@ void battle(Player *thePlayer,Creature *theTarget){
     if(action == "item"){
       string itemAction;
       while ((itemAction != "strenth") && (itemAction != "health") && (itemAction != "back")){
+        cout << endl;
         cout << "what will you use strenth or health potion?" << endl;
         cout << "to use a strenth potion enter strenth" << endl;
         cout << "to use a health potion enter health" << endl;
@@ -216,8 +234,66 @@ void getName(Player *thePlayer){
   }
 } 
 
+void finalArea(){
+  cout<< "test" << endl;
+}
+
 void demonCastleEntry(){
-  cout << "test" << endl;
+  string respose;
+  string action;
+  string target;
+  string targetSneak;
+  int sneakRng = rand() % 10;
+  cout << endl;
+  while((action !="sneak") && (action !="attack")){
+    getWorldLoc(world, myPlayer);
+    cout << "Will you try and 'attack' the creatures before or will you try and 'sneak' around" << endl;
+    cin >> action;
+    if(action == "attack"){
+      cout << endl;
+      cout << "which creature will you target first Demon 'A' or 'B'" << endl;
+        cin >> target;
+        if(target == "A"){
+          battle(myPlayer,Demon);
+          battle(myPlayer,Demon1);
+          myPlayer->moveRight();
+          finalArea();
+        }else if(target == "B"){
+          battle(myPlayer,Demon1);
+          battle(myPlayer,Demon);
+          myPlayer->moveRight();
+          finalArea();
+        }else{target = "next";}
+    }else if(action == "sneak" && sneakRng == 3 ){
+      cout << endl;
+      cout << "thee luckly make shift to sneak 'round the creatures and headeth into the next room" <<endl;
+      myPlayer->moveRight();
+      finalArea();
+    }else if(action == "sneak" && sneakRng !=3){
+      cout << "thee tryeth to sneak 'round the creatures and headeth into the next area howev'r the creatures react to the sound of thy steps." << endl;
+      while((targetSneak != "A") && (targetSneak !="B")){
+        cout << endl;
+        cout << "which creature will you target first Demon 'A' or 'B'" << endl;
+        cin >> targetSneak;
+        if(targetSneak == "A"){
+          battle(myPlayer,Demon);
+          battle(myPlayer,Demon1);
+          myPlayer->moveRight();
+          finalArea();
+        }else if(targetSneak == "B"){
+          battle(myPlayer,Demon1);
+          battle(myPlayer,Demon);
+          myPlayer->moveRight();
+          finalArea();
+        }else{targetSneak = "next";}
+      }
+    }else{action = "next";}
+      
+
+  }
+  cout << Troll->getName() << " appears " << endl;
+  battle(myPlayer,Troll);
+  cout << endl;
 }
 
 void safeZone(){
@@ -237,7 +313,7 @@ void safeZone(){
       string itemAction;
       while ((itemAction != "health") && (itemAction != "strenth") && (itemAction != "back")){
         cout << endl;
-        cout << "valorous day i've did get two typeth of items f'r sale wouldst thee liketh to seeth a health of a strenth potion If you deside you don't want anything go 'back' to the bazar hub" << endl;
+        cout << "valorous day i've did get two typeth of items f'r sale wouldst thee liketh to seeth a 'health' of a 'strenth' potion If you deside you don't want anything go 'back' to the bazar hub" << endl;
         cin >> itemAction;
         if(itemAction == "back"){
           action = "next";
@@ -322,7 +398,6 @@ void darkWoods(){
             gameOver(myPlayer);
           }else if(movement == "center"){
             myPlayer->moveRight();
-            getWorldLoc(world,myPlayer);
             safeZone();
           }else if(movement == "right"){
             cout <<endl;

@@ -1,28 +1,28 @@
 #include<iostream>
-#include<string>
-using namespace std;
- 
 
-class Location
-{
+#include<string>
+
+using namespace std;
+
+class Location {
   private:
     string description;
-    int treasure;
+  int treasure;
   public:
     Location(string description);
-    //void getLocation();
-    string getDescription();
-    int getTreasure(); 
+  //void getLocation();
+  string getDescription();
+  int getTreasure();
 };
 
-Location::Location(string description){
-    this->description = description;
+Location::Location(string description) {
+  this -> description = description;
 }
 
-string Location::getDescription(){
-  return this->description;
+string Location::getDescription() {
+  return this -> description;
 }
 
-int Location::getTreasure(){
-  return this->treasure;
+int Location::getTreasure() {
+  return this -> treasure;
 }
