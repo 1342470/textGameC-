@@ -24,7 +24,7 @@ Location *world[numOfRooms]= {
   new Location("You are in a deep Forest full of large towering oak trees, due to the mass number of trees around you the light is faint however you are able to see in front of you a monster is blocking the path ahead, the monster spots you and starts to sprint towards you get ready for battle."), 
   new Location("A safe area which has a cave surrounded by two large fields of flowers. By the cave you see a man near a campfire, he looks like he has a huge backback full of wares. You can either 'speak' to the shopkepper sat by the campfire or go 'forward' to head out toward out into the field"),
   new Location("Finaly after your jurney you have reached the lare of the demon king around you are great paintings of the previous leaders as well as a winding long carpet that leads to a fork before the path splits their are a number of creatures before you"),
-  new Location("In the demon kings thrown room you see the demon king at the end of the room sat in a great thrown with ")
+  new Location("In the demon kings thrown room you see the demon king at the end of the room sat in a great throne with a great menacing grin he bellows:")
   }; 
 
 struct item{
@@ -235,7 +235,10 @@ void getName(Player *thePlayer){
 } 
 
 void finalArea(){
-  cout<< "test" << endl;
+  cout << endl;
+  cout << "so ya finally made it do ya really fink 'dat ya kan stompn me well den have at it." << endl << endl;
+  battle(myPlayer,Fianl);
+  gameWin(myPlayer);
 }
 
 void demonCastleEntry(){
