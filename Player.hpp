@@ -108,14 +108,14 @@ int Player::getLoc() {
 }
 
 void Player::attack(Creature * theTarget) {
-  int crit = rand() % 5;
+  int crit = rand() % 10;
   int strike;
   if (crit == 3) {
-    int strike = this -> strenth + rand() % 10 + 10;
+    int strike = this->strenth + rand() % 10 + 10;
   } else {
-    int strike = this -> strenth + rand() % 10 + 1;
+    int strike = this->strenth + rand() % 10;
   }
-  theTarget -> decreaseHealth(strike);
+  theTarget->decreaseHealth(strike);
   cout << endl;
   cout << "thee striketh " << theTarget-> getName() << " dealing " << strike << " damage the impact leaves them with " << theTarget -> getHealth() << " health left " << endl;
 }
@@ -203,11 +203,12 @@ int Player::getScore() {
 
 void Player::levelUp() {
   level++;
-  cout << "sir " << this->getName() << " thee has't level'd up thee anon art leveleth " << this->getLevel() << " and has't " << this->getHealth() << " health and " << this->getStrenth() << "strenth" << endl;
-  resetExp();
   this->setHealth(this->getHealth() + this->getLevel() + 10);
-  this->setStrenth(this->getStrenth() + this->getLevel() + 1);
-  this->setScore(1000);
+  this->setStrenth(this->getStrenth() + 1);
+  this->setScore(1000 * getLevel());
+  cout << "sir " << this->getName() << " thee has't level'd up thee anon art leveleth " << this->getLevel() << " and has't " << this->getHealth() << " health and " << this->getStrenth() << " strenth" << endl;
+  resetExp();
+
 }
 
 void Player::setScore(int theScore) {

@@ -143,8 +143,7 @@ void battle(Player *thePlayer,Creature *theTarget){
             cout << "you don't have enough potions for that" << endl;
             action = "next";
           }
-        }
-         if(itemAction == "strenth"){
+        }else if(itemAction == "strenth"){
           if(thePlayer->getStrenthItem() >0){
             thePlayer->useStrenthItem();
             cout << "you use the Strenth potion you now have " << thePlayer->getStrenth() << " Strenth" << endl;
@@ -178,6 +177,7 @@ void battle(Player *thePlayer,Creature *theTarget){
       cout << "thee anon has't " << thePlayer->getMoney() <<  " gold " << endl;
       cout << thePlayer->getTitle() << " " <<  thePlayer->getName() << " thee has't did gain " << theTarget->getStrenth()+ rand() % 10 + 1 << " exp'rience " << endl ;
       thePlayer->setExp(theTarget->getStrenth()+ 10);
+      thePlayer->setScore(theTarget->getStrenth()+ 150);
       cout << "thee anon has't " << thePlayer->getExp() <<  " exp'rience" << endl;
       if(thePlayer->getExp() >= 25){
         thePlayer->levelUp();
