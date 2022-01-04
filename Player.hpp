@@ -46,6 +46,7 @@ class Player {
   int getHealthItem();
   int getStrenthItem();
   int useHealthItem();
+  void resetExp();
   int useStrenthItem();
   int addHealthItem();
   int addStrenthItem();
@@ -57,8 +58,8 @@ class Player {
 };
 
 Player::Player(string name, int numRooms) {
-  this -> name = name;
-  this -> numRooms = numRooms;
+  this->name = name;
+  this->numRooms = numRooms;
   hitPoints = 25;
   location = 0;
   score = 0;
@@ -67,7 +68,7 @@ Player::Player(string name, int numRooms) {
   money = 20;
   healthItem = 1;
   strenthItem = 0;
-  strenth = 2;
+  strenth = 0;
 }
 
 string Player::getName() {
@@ -116,7 +117,7 @@ void Player::attack(Creature * theTarget) {
   }
   theTarget -> decreaseHealth(strike);
   cout << endl;
-  cout << "thee striketh " << theTarget -> getName() << " dealing " << strike << " damage the impact leaves them with " << theTarget -> getHealth() << " health left " << endl;
+  cout << "thee striketh " << theTarget-> getName() << " dealing " << strike << " damage the impact leaves them with " << theTarget -> getHealth() << " health left " << endl;
 }
 
 void Player::bribeSuccess(Creature theTarget) {
@@ -143,7 +144,7 @@ void Player::bribe(Creature theTarget) {
 }
 
 int Player::decreaseHealth(int stirke) {
-  int healthLoss = rand() % 10 + stirke - this -> strenth;
+  int healthLoss = 10 + stirke ;
   hitPoints = hitPoints - healthLoss;
   return hitPoints;
 }
@@ -165,7 +166,7 @@ void Player::setMoney(int theMoney) {
 }
 
 void Player::setName(string theName) {
-  this -> name = theName;
+  this->name = theName;
 }
 
 void Player::setExp(int theExp) {
@@ -174,6 +175,10 @@ void Player::setExp(int theExp) {
 
 int Player::getExp() {
   return exp;
+}
+
+void Player::resetExp(){
+  exp = 0;
 }
 
 void Player::setTitle(string theTitle) {
@@ -198,11 +203,11 @@ int Player::getScore() {
 
 void Player::levelUp() {
   level++;
-  cout << "sir " << this -> getName() << " thee has't level'd up thee anon art leveleth " << this -> getLevel() << " and has't " << this -> getHealth() << " health and " << this -> getStrenth() << "strenth" << endl;
-  this -> setExp(0);
-  this -> setHealth(this -> getHealth() + this -> getLevel() + 10);
-  this -> setStrenth(this -> getStrenth() + this -> getLevel() + 1);
-  this -> setScore(1000);
+  cout << "sir " << this->getName() << " thee has't level'd up thee anon art leveleth " << this->getLevel() << " and has't " << this->getHealth() << " health and " << this->getStrenth() << "strenth" << endl;
+  resetExp();
+  this->setHealth(this->getHealth() + this->getLevel() + 10);
+  this->setStrenth(this->getStrenth() + this->getLevel() + 1);
+  this->setScore(1000);
 }
 
 void Player::setScore(int theScore) {
@@ -232,14 +237,14 @@ int Player::addStrenthItem() {
 }
 
 int Player::useHealthItem() {
-  this -> hitPoints = hitPoints + 10;
+  this->hitPoints = hitPoints + 10;
   setScore(50);
   healthItem--;
   return healthItem;
 }
 
 int Player::useStrenthItem() {
-  this -> strenth = strenth + 1;
+  this->strenth = strenth + 1;
   setScore(100);
   strenthItem--;
   return strenthItem;

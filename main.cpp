@@ -3,8 +3,6 @@
 #include "Location.hpp"
 #include <stdio.h>    
 
-
-
 const int numOfRooms = 6;
 
 //create objects for the player and the creatures
@@ -27,12 +25,13 @@ Location *world[numOfRooms]= {
   new Location("In the demon kings thrown room you see the demon king at the end of the room sat in a great throne with a great menacing grin he bellows:")
   }; 
 
+//store items with number of each item that can be dropped by npc
 struct item{
   string type;
   int numberOf;
 }health, strenth;
 
-//function that prints out the correct location based on the players location
+//function that prints out the correct location based on the players location. the pointer world that is required will be the arrary that store each location object that has a string of its desciption. the player pass will keep track on its location that will be passed into the world arrar to get the current locaitons string.
 void getWorldLoc(Location *world[],Player *thePlayer){
   cout << endl;
   cout << "thou is currently at: " << endl <<endl;
@@ -40,53 +39,65 @@ void getWorldLoc(Location *world[],Player *thePlayer){
   cout << "what will thou do?" << endl << endl;
 }
 
-//function that when the player loses all of their health it will end the game 
+//function that when the player loses all of their health it will end the game. o
 void gameOver(Player *thePlayer){
+  // print out all player information from current session
   cout << thePlayer->getTitle() << " " << thePlayer->getName() << " thou hath died your score was " << thePlayer->getScore() << " and thou hath reached level " << thePlayer->getLevel() << "would you like to try again " << endl;
   string again;
+  //while agian isn't valid ask the user if they want to play again
   while(again != "yes"|| again !="Yes" || again!="No" || again!="no" ){
   cin >> again;
+  // if yes restart game
   if(again == "yes" || again == "Yes"){
     std::exit(42);
   }
+  //if no thank player
   else if(again == "no" || again == "No"){
     cout << " thank you for playing " <<endl;
   }
   }
 }
 
+// function that is ran once the player has compleated the game.
 void gameWin(Player *thePlayer){
-  cout << thePlayer->getTitle() << " " << thePlayer->getName() << " thou hath defeated the demon king, your score was " << thePlayer->getScore() << " and thou hath reached level " << thePlayer->getLevel() << "would you like to try again " << endl;
+  cout << endl;
+  // print results
+  cout << thePlayer->getTitle() << " " << thePlayer->getName() << " thou hath defeated the demon king. As so traveleth backeth to thy hometown thee rememb'r all of the tasks thee hadst to taketh in thy adventrue as well as how much thee hadst grown.  Once thee returneth to thy hometown thou art did greet by the king and did thank f'r thy eff'rts as a reward thee and thy town has't a most wondrous feast  your score was " << thePlayer->getScore() << " and thou hath reached level " << thePlayer->getLevel() << endl << " would you like to try again? " << endl;
   string again;
+  //ask player if they want to play again
   while(again != "yes"|| again !="Yes" || again!="No" || again!="no" ){
   cin >> again;
+  // if yes restart
   if(again == "yes" || again == "Yes"){
     std::exit(42);
   }
+  // if no thank player
   else if(again == "no" || again == "No"){
     cout << " thank you for playing " <<endl;
   }
   }
 }
 
+//fucntion that takes user input to get player to a diffrent locaiton
 string getMovement(Player *thePlayer){
   string action;
+  // while action is invaild ask play where they want to go
   while ((action != "left") && (action != "right")){
     cout << "which path shall thy taketh?" << endl;
-    // cout << "There are two paths on leading to the right and one to the left" << endl;
     cin >> action;
-  
+    // if left move run move left
     if(action == "left"){
       thePlayer->moveLeft();
       cout << endl;
       return action;
   }
-
+    // if right move right and get location
     if(action == "right"){
       thePlayer->moveRight();
       getWorldLoc(world,myPlayer);
       cout << endl;
       return action;
+  // if invaild print to user that this action is invaild
   }else{cout << "i dont knoweth yond action" << endl; return action;}
 
   }
@@ -98,8 +109,11 @@ void help(){
   cout << "your goal is to get to the evil villans castle and defeat the demon in order to save the world to to move your player type in either move left or right to move, to fight when in battle type fight, to bribe a monster type bribe. If your not sure what to do next try looking at the current locations discription to give you hints, if you see anything inside single quotes that is action that you can take. If you lose all your health it is gameover." << endl << endl;
 }
 
+// funciton that takes the player and target for their stats and fights until one of the objects hp is 0
 void battle(Player *thePlayer,Creature *theTarget){
+//action is a string used by the loop to detemin the users input it will check if they entered a vaild command if anything else other than the options is reutrned loop back.  
   string action;  
+// while action is invaild ask player if they want to fight, bribe or use item
     while ((action != "fight") && (action != "bribe") && (action != "item")){ 
     cout << endl;
     cout << "Would thy like to Tussle or bribe?" << endl;
@@ -107,7 +121,9 @@ void battle(Player *thePlayer,Creature *theTarget){
     cout << "To bribe thy must enter bribe" << endl;
     cout << "to use a item thy must enter item" << endl;
     cin >> action;
+// if action ask player what they want to use while itemaction is invaild
     if(action == "item"){
+// itemaction is a string used by the loop to detemin the users input it will check if they entered a vaild command if anything else other than the options is reutrned loop back.
       string itemAction;
       while ((itemAction != "strenth") && (itemAction != "health") && (itemAction != "back")){
         cout << endl;
@@ -140,16 +156,20 @@ void battle(Player *thePlayer,Creature *theTarget){
         }
       }
     }
+// if fight fun attack funciton on the object passed into the fuction and get the health 
     if(action == "fight"){
       thePlayer->attack(theTarget);
       thePlayer->getHealth();
+// if the target isn't dead allow it to attack the player and print the result
       if(theTarget->getHealth() >=0){
         thePlayer->decreaseHealth(theTarget->attack());
         cout <<endl;
         cout << theTarget->getName() << " striketh backeth thee anon has't " << thePlayer->getHealth() << " health hath left" <<endl <<endl ;
       }
+// if the player has been killed run gameover
       if(thePlayer->getHealth() <= 0){
         gameOver(thePlayer);
+// if target is killed run its deconstrutor and give the player their exp and gold based on the targets stats
       }else if(theTarget->getHealth() <= 0){
       theTarget->~Creature();
       cout <<endl;
@@ -168,10 +188,11 @@ void battle(Player *thePlayer,Creature *theTarget){
       action = "next";
       }
     } 
-
+// if bribe run player bribe function
   if(action == "bribe"){
     thePlayer->bribe(*theTarget);
     action = "next";
+// if help run help funciton
   }if(action == "help"){
     help();
     action = "next";
@@ -182,12 +203,13 @@ void battle(Player *thePlayer,Creature *theTarget){
 
 
  
-
+// prints the games story out with the players name as well as the final boss.
 void story(Player thePlayer, Creature theBoss){
   cout << endl;
   cout << "thou are " << thePlayer.getTitle() << " " << thePlayer.getName() << " thou are thy brave knight who has been tasked in defeating thy evil demon " << theBoss.getName()<< " go forth with thou great chivalry and bravery to save thy day" << " if thou are stuck type help thy when a action is needed to be selected" << endl << endl;
 }
 
+//allows user to enter their title 
 void getTitle(Player *thePlayer){
   string theTitle;
   string responce;
@@ -211,6 +233,7 @@ void getTitle(Player *thePlayer){
   }
 } 
 
+//allows player to enter their own name.
 void getName(Player *thePlayer){
   string theName;
   string response;
@@ -236,6 +259,7 @@ void getName(Player *thePlayer){
 
 void finalArea(){
   cout << endl;
+  getWorldLoc(world, myPlayer);
   cout << "so ya finally made it do ya really fink 'dat ya kan stompn me well den have at it." << endl << endl;
   battle(myPlayer,Fianl);
   gameWin(myPlayer);
@@ -279,12 +303,16 @@ void demonCastleEntry(){
         cout << "which creature will you target first Demon 'A' or 'B'" << endl;
         cin >> targetSneak;
         if(targetSneak == "A"){
+          cout << "Demon A appears" << endl;
           battle(myPlayer,Demon);
+          cout << "Demon B appears" << endl;
           battle(myPlayer,Demon1);
           myPlayer->moveRight();
           finalArea();
         }else if(targetSneak == "B"){
+          cout << "Demon B appears" << endl;
           battle(myPlayer,Demon1);
+          cout << "Demon A appears" << endl;
           battle(myPlayer,Demon);
           myPlayer->moveRight();
           finalArea();
@@ -330,7 +358,7 @@ void safeZone(){
               cout << endl;
               cout << "The shopkeeper replys: thanketh thee f'r thy purchaseth" << endl;
               myPlayer->addHealthItem();
-              myPlayer->minusMoney(5);
+              myPlayer->minusMoney(9);
               cout << " After buying a health potion you now have " << myPlayer->getHealthItem() << " health potions and have " << myPlayer->getMoney() << " gold left" <<endl;
               itemAction = "next";
           }else if(responce == "yes" && myPlayer->getMoney() <= 8) {
@@ -354,7 +382,7 @@ void safeZone(){
             if(responce == "yes" && myPlayer->getMoney() > 19){
               cout << "The shopkeeper replys: thanketh thee f'r thy purchaseth" << endl;
               myPlayer->addStrenthItem();
-              myPlayer->minusMoney(15);
+              myPlayer->minusMoney(20);
               cout << " After buying a Strenth potion you now have " << myPlayer->getStrenthItem() << " strenth potions and have "  << myPlayer->getMoney() << " gold left" <<endl;
               itemAction = "next";
           }else if(responce == "yes" && myPlayer->getMoney() <= 19) {
@@ -534,6 +562,7 @@ void game(){
 int main(){
   getName(myPlayer);
   game();
+
 
 return 0;
 }
